@@ -16,11 +16,17 @@ d3.xhr('edict_sub.txt', 'text/plain', function(err, req) {
     // ideal since it might treat two adjaced compounds (not separated by any
     // whitespace/punctuation/kana) as one compound.
     var compounds = _.unique(_response.match(XRegExp('\\p{Han}+', 'g')));
+    /*
+    var c2 = _.compact(_.unique(_.flatten(_response.split("\n").map(
+        function(line) {return line.match(XRegExp('\\p{Han}+', 'g'))}))));
+    var c3 = _.filter(_response.split("\n").map(
+        function(line) {return line.match(XRegExp('\\p{Han}+', 'g'))}), 'length');
+    */
 
     // Make a list of kanji with each element having one additional kanji than
     // the last. I.e., [1 2 3] --> [[1] [1 2] [1 2 3]], except with a few
     // thousand kanji instead of 1-3.
-    var kanjiArr = KANJI.split("").slice(1,100);
+    var kanjiArr = KANJI.split("");
     var cumKanjiList =
         _.map(kanjiArr, function(k, i) { return kanjiArr.slice(0, i + 1); });
 
